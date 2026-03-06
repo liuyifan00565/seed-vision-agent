@@ -1,0 +1,166 @@
+/* pages/describe/index.wxss */
+.page{
+  min-height: 100vh;
+  background: linear-gradient(180deg, #eaf1ff 0%, #f7faff 38%, #ffffff 100%);
+  padding: 22rpx 20rpx 0;
+  box-sizing: border-box;
+}
+
+/* 顶部头图 */
+.hero{
+  border-radius: 22rpx;
+  padding: 28rpx 24rpx;
+  background: linear-gradient(180deg, #6d8bff 0%, #5f86ff 55%, #4c78ff 100%);
+  box-shadow: 0 14rpx 42rpx rgba(28,54,120,0.20);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 轻量纹理点缀（高级感） */
+.hero::before{
+  content:"";
+  position:absolute;
+  right:-80rpx;
+  top:-80rpx;
+  width: 240rpx;
+  height: 240rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.16);
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  left:-90rpx;
+  bottom:-90rpx;
+  width: 280rpx;
+  height: 280rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.10);
+}
+
+.heroTop{ position: relative; z-index: 1; }
+.heroTitle{
+  font-size: 42rpx;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 1rpx;
+}
+.heroSub{
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.92);
+}
+
+/* 玻璃浮层 */
+.heroGlass{
+  margin-top: 18rpx;
+  position: relative;
+  z-index: 1;
+  display:flex;
+  align-items:center;
+  gap: 10rpx;
+  padding: 14rpx 16rpx;
+  border-radius: 18rpx;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.20);
+  backdrop-filter: blur(6px);
+}
+.glassDot{
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+}
+.glassText{
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.92);
+}
+
+/* 内容面板 */
+.panel{
+  margin-top: 18rpx;
+  padding: 14rpx 4rpx 0;
+}
+
+/* 2列网格 */
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+/* 工具卡 */
+.toolCard{
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 18rpx 18rpx 16rpx;
+  box-shadow: 0 12rpx 34rpx rgba(28,54,120,0.10);
+  border: 1px solid #eef2ff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 卡片顶部 */
+.toolTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* 图标泡泡 */
+.toolIconWrap{
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(180deg,#eef3ff 0%, #f7f9ff 100%);
+  border: 1px solid #e7edff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.toolIcon{
+  font-size: 36rpx;
+}
+
+/* 进入按钮（小胶囊） */
+.toolGo{
+  display:flex;
+  align-items:center;
+  gap: 6rpx;
+  padding: 10rpx 14rpx;
+  border-radius: 999rpx;
+  background: #f0f5ff;
+  border: 1px solid #e0e9ff;
+  color:#2b49a8;
+  font-size: 22rpx;
+}
+.goText{ font-weight: 700; }
+.goArrow{ font-size: 28rpx; line-height: 1; }
+
+/* 标题+描述 */
+.toolTitle{
+  margin-top: 12rpx;
+  font-size: 30rpx;
+  font-weight: 900;
+  color: #1b2a4a;
+}
+.toolDesc{
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #6a78a6;
+  line-height: 1.5;
+  min-height: 68rpx; /* 统一卡片高度更整齐 */
+}
+
+/* 底部装饰线 */
+.toolLine{
+  margin-top: 14rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(95,134,255,0.18) 0%, rgba(95,134,255,0.02) 100%);
+}
+
+/* 底部安全区 */
+.safeBottom{
+  height: 40rpx;
+}

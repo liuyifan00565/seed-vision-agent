@@ -1,0 +1,45 @@
+<!-- pages/describe/index.wxml -->
+<view class="page">
+
+<!-- 顶部蓝白渐变头图 -->
+<view class="hero">
+  <view class="heroTop">
+    <view class="heroTitle">作业工具中心</view>
+    <view class="heroSub">智种计 · 专为生产环节：报告、标签生成、纠偏</view>
+  </view>
+
+  <!-- 浮层小卡：强调蓝白高级感 -->
+  <!-- <view class="heroGlass">
+    <view class="glassDot"></view>
+    <view class="glassText">蓝白极简 · 清爽不刺眼</view>
+  </view> -->
+</view>
+
+<!-- 工具卡片区 -->
+<view class="panel">
+  <view class="grid">
+    <block wx:for="{{modules}}" wx:key="id">
+      <view class="toolCard" bindtap="onTapModule" data-path="{{item.path}}">
+        <view class="toolTop">
+          <view class="toolIconWrap">
+            <text class="toolIcon">{{item.icon}}</text>
+          </view>
+          <view class="toolGo">
+            <text class="goText">进入</text>
+            <text class="goArrow">›</text>
+          </view>
+        </view>
+
+        <view class="toolTitle">{{item.title}}</view>
+        <view class="toolDesc">{{item.desc}}</view>
+
+        <!-- 细线装饰 -->
+        <view class="toolLine"></view>
+      </view>
+    </block>
+  </view>
+</view>
+
+<!-- 底部安全区 -->
+<view class="safeBottom"></view>
+</view>

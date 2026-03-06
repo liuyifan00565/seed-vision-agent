@@ -1,0 +1,253 @@
+<!-- miniprogram/pages/ai/index.wxml -->
+<view class="page">
+
+<!-- 顶部导航栏 -->
+<view class="nav">
+  <view class="navLeft">
+    <view class="logoCircle">
+      <text class="logoIcon">🌱</text>
+    </view>
+    <view class="navTitleWrap">
+      <text class="navTitle">智种计AI助手</text>
+      <text class="navSub">AI驱动的种子分析专家</text>
+    </view>
+  </view>
+  <view class="aiPoweredBadge">
+    <view class="badgeDot"></view>
+    <text class="aiPoweredText">AI在线</text>
+  </view>
+</view>
+
+<!-- 聊天内容区域 - 可滚动 -->
+<scroll-view
+  class="chatContainer"
+  scroll-y="true"
+  scroll-with-animation="true"
+  scroll-into-view="{{scrollIntoView}}"
+  show-scrollbar="false"
+  enhanced="true"
+>
+  <!-- 高级推荐词条区域 - 悬浮滑动卡片 -->
+  <view class="quickStartSection">
+    <view class="sectionHeader">
+      <view class="headerContent">
+        <text class="sparkleIcon">✨</text>
+        <text class="headerTitle">猜你想问</text>
+      </view>
+      <text class="headerHint">左右滑动查看更多</text>
+    </view>
+
+    <!-- 横向滚动的悬浮卡片 -->
+    <scroll-view class="cardsScroller" scroll-x="true" show-scrollbar="false" enhanced="true">
+      <view class="scrollContent">
+        <!-- 精选卡片1 -->
+        <view class="floatingCard featured" bindtap="onTapSuggestion" data-text="帮我分析这张种子图片的计数和质量">
+          <view class="cardGradient"></view>
+          <view class="cardIconBox">
+            <text class="cardBigIcon">📸</text>
+          </view>
+          <view class="cardTextArea">
+            <text class="cardMainTitle">智能图片分析</text>
+            <text class="cardSubtext">AI识别 · 精准计数</text>
+          </view>
+          <view class="cardShine"></view>
+        </view>
+
+        <!-- 卡片2 -->
+        <view class="floatingCard" bindtap="onTapSuggestion" data-text="如何提高种子拍摄质量？拍照时要注意什么？">
+          <view class="cardIconBox secondary">
+            <text class="cardBigIcon">💡</text>
+          </view>
+          <view class="cardTextArea">
+            <text class="cardMainTitle">拍摄技巧</text>
+            <text class="cardSubtext">光照 · 背景 · 角度</text>
+          </view>
+        </view>
+
+        <!-- 卡片3 -->
+        <view class="floatingCard" bindtap="onTapSuggestion" data-text="帮我计算发芽率">
+          <view class="cardIconBox tertiary">
+            <text class="cardBigIcon">📊</text>
+          </view>
+          <view class="cardTextArea">
+            <text class="cardMainTitle">发芽率计算</text>
+            <text class="cardSubtext">专业算法 · 精确评估</text>
+          </view>
+        </view>
+
+        <!-- 卡片4 -->
+        <view class="floatingCard" bindtap="onTapSuggestion" data-text="种子粘连重叠怎么办？如何减少误差？">
+          <view class="cardIconBox quaternary">
+            <text class="cardBigIcon">🔍</text>
+          </view>
+          <view class="cardTextArea">
+            <text class="cardMainTitle">质量检测</text>
+            <text class="cardSubtext">粘连识别 · 误差分析</text>
+          </view>
+        </view>
+
+        <!-- 卡片5 -->
+        <view class="floatingCard" bindtap="onTapSuggestion" data-text="如何抽样才科学？批次和重复怎么设计？">
+          <view class="cardIconBox">
+            <text class="cardBigIcon">📋</text>
+          </view>
+          <view class="cardTextArea">
+            <text class="cardMainTitle">抽样方法</text>
+            <text class="cardSubtext">科学抽样 · 数据可靠</text>
+          </view>
+        </view>
+
+        <view class="scrollEndSpacer"></view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="messageList">
+    <block wx:for="{{messages}}" wx:key="index">
+      <view id="msg-{{index}}" class="msgRow {{item.role}}">
+
+        <!-- AI 头像和徽章 -->
+        <view wx:if="{{item.role === 'assistant'}}" class="aiAvatarWrap">
+          <view class="aiAvatar">
+            <view class="avatarGlow"></view>
+            <view class="avatarRing"></view>
+            <text class="aiAvatarIcon">🤖</text>
+          </view>
+        </view>
+
+        <!-- 消息内容 -->
+        <view class="msgContent">
+
+          <!-- AI生成标识 -->
+          <view wx:if="{{item.role === 'assistant'}}" class="aiTag">
+            <text class="aiTagIcon">✨</text>
+            <text class="aiTagText">AI生成</text>
+          </view>
+
+          <!-- 消息气泡 -->
+          <view class="bubble {{item.role === 'user' ? 'userBubble' : 'aiBubble'}}">
+
+            <!-- 用户图片消息 -->
+            <block wx:if="{{item.role==='user' && item.type==='image'}}">
+              <view class="msgImage">
+                <image
+                  class="msgImageContent"
+                  mode="aspectFill"
+                  src="{{item.imageUrl}}"
+                  bindtap="previewImage"
+                  data-src="{{item.imageUrl}}"
+                />
+                <view class="imageMask">
+                  <text class="imageMaskIcon">🔍</text>
+                </view>
+              </view>
+              <text class="imageCaption">{{item.content || '图片已上传'}}</text>
+            </block>
+
+            <!-- 普通文字消息 -->
+            <block wx:elif="{{item.role==='user'}}">
+              <text class="bubbleText">{{item.content}}</text>
+            </block>
+
+            <!-- AI 消息 -->
+            <block wx:else>
+              <text class="bubbleText">{{item.versions[item.activeVersionIndex].content}}</text>
+
+              <!-- 打字动画 -->
+              <view wx:if="{{item.isTyping}}" class="typingIndicator">
+                <view class="typingDot"></view>
+                <view class="typingDot"></view>
+                <view class="typingDot"></view>
+                <text class="typingText">正在思考...</text>
+              </view>
+            </block>
+
+          </view>
+
+          <!-- 时间戳 -->
+          <view class="msgTime">
+            <text wx:if="{{item.role === 'assistant'}}" class="msgTimeLabel">AI · </text>
+            {{item.time}}
+          </view>
+
+          <!-- AI 操作按钮 -->
+          <view wx:if="{{item.role === 'assistant' && !item.isTyping}}" class="msgActions">
+            <view class="actionBtn" bindtap="copyActiveVersion" data-index="{{index}}">
+              <text class="actionBtnText">复制</text>
+            </view>
+            <view class="actionBtn" bindtap="regenerateAt" data-index="{{index}}">
+              <text class="actionBtnText">重新生成</text>
+            </view>
+            <view
+              class="actionBtn"
+              bindtap="toggleHistory"
+              data-index="{{index}}"
+              wx:if="{{item.versions && item.versions.length > 1}}"
+            >
+              <text class="actionBtnText">历史({{item.versions.length}})</text>
+            </view>
+          </view>
+
+        </view>
+      </view>
+    </block>
+
+    <view class="bottomSpacer"></view>
+  </view>
+</scroll-view>
+
+<!-- 固定底部输入栏 - 动态适配键盘 -->
+<view class="fixedInputBar" style="bottom: {{keyboardHeight > 0 ? keyboardHeight + 'px' : '135rpx'}};">
+  <!-- 图片预览 -->
+  <view wx:if="{{pendingImage}}" class="imagePreview">
+    <view class="previewImageBox">
+      <image class="previewImage" mode="aspectFill" src="{{pendingImage.url}}" />
+      <view class="previewOverlay">
+        <text class="previewLabel">待发送</text>
+      </view>
+    </view>
+    <view class="removePreviewBtn" bindtap="removePendingImage">
+      <text class="removeIcon">×</text>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="inputWrapper">
+    <!-- 相机按钮（支持拍照和相册） -->
+    <view class="cameraBtn" bindtap="showImageOptions">
+      <view class="cameraBtnContent">
+        <text class="cameraBtnIcon">📸</text>
+      </view>
+    </view>
+
+    <!-- 多行自适应输入框 -->
+    <view class="multiInputBox">
+      <textarea
+        class="multiInputField"
+        placeholder="发消息..."
+        placeholder-class="inputPlaceholder"
+        value="{{inputText}}"
+        bindinput="onInput"
+        bindfocus="onInputFocus"
+        bindblur="onInputBlur"
+        auto-height="{{true}}"
+        maxlength="-1"
+        show-confirm-bar="{{false}}"
+        adjust-position="{{false}}"
+        cursor-spacing="10"
+        hold-keyboard="{{true}}"
+      />
+    </view>
+
+    <!-- 发送按钮 -->
+    <view 
+      class="sendBtn {{(!inputText && !pendingImage) || isLoading ? 'disabled' : ''}}" 
+      bindtap="onSend"
+    >
+      <text class="sendBtnIcon">{{isLoading ? '⏳' : '➤'}}</text>
+    </view>
+  </view>
+</view>
+
+</view>
